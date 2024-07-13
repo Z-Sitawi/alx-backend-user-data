@@ -15,9 +15,15 @@ def status() -> str:
 
 
 @app_views.route('/unauthorized', methods=['GET'], strict_slashes=False)
-def unauthorized() -> str:
+def unauthorized():
     """ raise a 401 error """
     abort(401)
+
+
+@app_views.route('/unauthorized', methods=['GET'], strict_slashes=False)
+def unauthorized():
+    """ raise a 403 error """
+    abort(403)
 
 
 @app_views.route('/stats/', strict_slashes=False)
