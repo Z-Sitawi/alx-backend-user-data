@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Module for basic Flask app. """
 from auth import Auth
-from flask import Flask, jsonify, request, abort, make_response
+from flask import Flask, jsonify, request, abort, make_response, Response
 
 AUTH = Auth()
 app = Flask(__name__)
@@ -26,7 +26,7 @@ def create_user():
 
 
 @app.route('/sessions', methods=['POST'])
-def login():
+def login() -> Response:
     """ end point for log in"""
     email = request.form['email']
     password = request.form['password']
