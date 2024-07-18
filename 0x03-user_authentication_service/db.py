@@ -54,7 +54,8 @@ class DB:
                 val.append(v)
             else:
                 raise InvalidRequestError()
-        user = self._session.query(User).filter(tuple_(*key).in_([tuple(val)])).first()
+        user = (self._session.query(User)
+                .filter(tuple_(*key).in_([tuple(val)])).first())
 
         if user is None:
             raise NoResultFound()
