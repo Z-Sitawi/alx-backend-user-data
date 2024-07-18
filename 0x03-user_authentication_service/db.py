@@ -3,8 +3,10 @@
 """
 import random
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, tuple_
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
@@ -43,3 +45,19 @@ class DB:
             user_object = None
 
         return user_object
+
+    def find_user_by(self, **kwargs) -> User:
+        """ Finds a user based on a set of filters."""
+        key, val = [], []
+
+        for k, v in kwargs.items():
+            if hasattr(User, k):
+                key.append(getattr(User, k))
+                val.append(v)
+            else:
+                raise InvalidRequestError()
+        user = self._session.query(User).filter(tuple_(*key).in_([tuple(val)])).first()
+
+        if user is None:
+            raise NoResultFound()
+        return user
