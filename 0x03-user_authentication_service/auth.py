@@ -34,6 +34,17 @@ class Auth:
             return False
         return False
 
+    def create_session(self, email: str) -> str:
+        """ Creates a new session for a user. """
+        try:
+            user = self._db.find_user_by(email=email)
+            if user is not None:
+                sid = _generate_uuid()
+                self._db.update_user(user_id=user.id, session_id=sid)
+                return sid
+        except NoResultFound:
+            return None
+
 
 def _hash_password(password: str) -> bytes:
     """
