@@ -6,6 +6,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from user import User
 import uuid
 
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
