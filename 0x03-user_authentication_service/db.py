@@ -60,3 +60,28 @@ class DB:
         if user is None:
             raise NoResultFound()
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """ Updates a user based on a user id
+            and arbitrary keyword arguments.
+
+            :return : None
+        """
+
+        user = self.find_user_by(id=user_id)
+        if not user:
+            return None
+
+        updates = {}
+        for key, val in kwargs.items():
+            if hasattr(User, key):
+                updates[getattr(User, key)] = val
+            else:
+                raise ValueError()
+
+        (
+            self._session.query(User)
+            .filter(User.id == user_id)
+            .update(updates, synchronize_session=False)
+        )
+        self._session.commit()
