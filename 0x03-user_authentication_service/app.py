@@ -15,6 +15,7 @@ def welcome():
 
 @app.route('/users', methods=['POST'])
 def create_user():
+    """ end point for creating a new user"""
     email = request.form['email']
     password = request.form['password']
     try:
@@ -26,12 +27,15 @@ def create_user():
 
 @app.route('/sessions', methods=['POST'])
 def login():
+    """ end point for log in"""
     email = request.form['email']
     password = request.form['password']
+
     if Auth.valid_login(email=email, password=password):
         json_resp = jsonify({"email": email, "message": "logged in"}), 200
         response = make_response(json_resp)
         response.set_cookie("session_id", Auth.create_session(email))
+        return response
     else:
         abort(401)
 
