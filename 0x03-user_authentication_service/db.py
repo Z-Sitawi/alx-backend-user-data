@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """DB module
 """
+import random
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -33,7 +35,7 @@ class DB:
     def add_user(self, email: str, hashed_password: str) -> User:
         """ Adds a new user to the database. """
         try:
-            user_object = User(email, hashed_password)
+            user_object = User(email=email, hashed_password=hashed_password)
             self._session.add(user_object)
             self._session.commit()
         except Exception:
