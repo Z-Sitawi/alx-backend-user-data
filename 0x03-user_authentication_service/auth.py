@@ -70,7 +70,7 @@ class Auth:
             raise ValueError()
 
     def update_password(self, reset_token: str, password: str) -> None:
-        """ updates a user's password"""
+        """ updates a user's password """
         try:
             user = self._db.find_user_by(reset_token=reset_token)
             pwd = _hash_password(password.encode('utf-8'))
